@@ -10,15 +10,16 @@ class Item (object):
         self.stock              = stock
         self.position_labels    = position_labels
         self.picked             = False
-
-    def distance (self, other):
-        for label in self.position_labels:
-            for label2 in other.position_labels:
-                
-        label_distance(l1,l2) for l1 in item1.labels() for l2 in item2.labels()
-        return 0
+        self.picked_label       = ''
 
     def closest (self, items = {}):
+        for item in items:
+            if item.picked == False:
+                d = self.distance(self.picked_label,item)
+***************                continue here
+
+    def distance (self, other):
+        return point_set_distance (self.picked_label, other.position_labels)
 
   
 def load (demand):
@@ -48,3 +49,16 @@ def label_distance (label_one, label_two):
     crosses         = sum([int(i % 7 == 0) for i in range(min(layers),max(layers))])
     print("crosses {}".format(crosses))
     return 3*crosses + diff_position + 4*aisles + horizontal_correction
+
+def point_set_distance (current_label, other_labels):
+
+    dist_realiz = other_labels[0]
+    current_min = label_distance(dist_realiz,current_label)
+
+    for label in other_labels:
+        l_d = label_distance(label,current_label)
+        if l_d < current_min:
+            current_min = l_d
+            dist_realiz = label
+
+    return (dist_realiz,current_min)
