@@ -1,7 +1,3 @@
-
-CONTINUE  here: test the Item class and distances
-with a test suite of demand jsons
-
 import json
 import math
 
@@ -13,13 +9,13 @@ class Item:
         self.volume             = volume
         self.stock              = stock
         self.position_labels    = position_labels
+        self.in_stock           = self.stock != {}
 
         ## tal vez no haga falta: cuando arme la ruta
-        al meterlo en una ruta, hago item.pick() y mando {sku, position_label} a la ruta
-        y al item le decremento el stock de esa etiqueta
+        #al meterlo en una ruta, hago item.pick() y mando {sku, position_label} a la ruta
+        #y al item le decremento el stock de esa etiqueta
         ## aca poner algo que diga cual etiqueta de position fue ruteada
         ## self.picked_for_route   = 
-        self.in_stock           = self.stock != {}
         # ----> hace falta?? self.routed_label       = ''
 
     def get_sku (self):
@@ -43,8 +39,8 @@ class Item:
     def get_stock (self):
         return self.stock
 
-    def set_stock (self, a):
-        self.stock = a
+    def set_stock (self, stock):
+        self.stock = stock
 
     def get_position_labels (self):
         return self.position_labels
@@ -96,38 +92,64 @@ class Item:
 def load (demand):
     f = open (demand)
     d = json.load(f)
+    
+    """
+    for item in d['stock']: print(type(item))
+    print("\n\n")
+    for k in iter(d['stock'].items()):
+        print(k)"""
+
     items = [] # list with Item class objects
+    q = d['stock']
+    r = d['demand']
+    # identify by sku
+    aux_dic = {}
+    for i in r:
+        aux_dic[i["sku"]] = i
+
+    print(aux_dic)
+
+    #weight = d[]
+    #volume = d[]
+    for sku in q:
+        pass
+        #item = Item(sku,d[sku][])
+
     return items
 
 def label_distance (label_one, label_two):
     """ 
     labels are MZ-1-003-008: 
-                   area-floor-aisle-position 
-    this distance takes everything as unitary
-
-                                { -1 if even--odd
-    horizontal_correction     = {  0 if same parity
-                                { +1 if odd--even
-    """
-
-    pos             = [int(label_one[9:12]), int(label_two[9:12])]
-    layers          = [math.ceil(pos[0]/2),math.ceil(pos[1]/2)]
+               area-floor-aisle-position 
     
+    this distance takes everything as unitary
+    and everything in same area -- same floor
 
-    #si esto es menor a 7: entre los mismos crosses!
-    diff_position   = max(layers)-min(layers)
-
-
-    print("diff_position {}".format(diff_position))
-    aisles          = math.fabs(int(label_one[5:8]) - int(label_two[5:8]))
-    print("aisles {}".format(aisles))
-    horizontal_correction = (pos[0] % 2 - pos[1] % 2)
-    print("horizontal_correction {}".format(horizontal_correction))
-    crosses         = sum([int(i % 7 == 0) for i in range(min(layers),max(layers))])
-    print("crosses {}".format(crosses))
-    between_same_crosses = 
-
-    return 3*crosses + diff_position + 4*aisles + horizontal_correction
+                               { -1 if even - odd
+    horizontal_correction    = {  0 if same parity
+                               { +1 if odd - even
+    """
+    l = [label_one,label_two]
+    l.sort()
+    left, right = tuple(l)
+    if left[5:8] == right[5:8] and int(left[9:12]) % 2 == 0:
+        left, right = right, left
+    aisles          = int(right[5:8]) - int(left[5:8])
+    vert_pos_left, vert_pos_right = int(left[9:12]), int(right[9:12])
+    layers        = [math.ceil(vert_pos_left/2),math.ceil(vert_pos_right/2)]
+    diff_position = max(layers)-min(layers)
+    horizontal_correction = vert_pos_left % 2 - vert_pos_right % 2
+    crosses       = sum([int(i % 7 == 0) for i in range(min(layers),max(layers))])
+    #print("aisles {}".format(aisles))
+    #print("crosses {}".format(crosses))
+    #print("horizontal_correction {}".format(horizontal_correction))
+    #print("diff_position {}".format(diff_position))
+    if crosses == 0 and aisles > 0:
+        vertic_gap = min(layers[0] % 7 + layers[1] % 7, 16 - layers[0] % 7 - layers[1] % 7)
+    else:
+        vertic_gap = 3*crosses + diff_position
+    horiz_gap = 4*aisles + horizontal_correction
+    return vertic_gap + horiz_gap
 
 def point_set_distance (current_label, other_labels):
 
