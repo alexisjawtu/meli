@@ -81,3 +81,4 @@ print(str(label_distance("MZ-1-005-010","MZ-1-006-009"))+"\n")
  {'weight': 10, 'volume': 40, 'etd': '2020-03-20T14:40:00.000-03:00', 'sku': 'ASYQU8'}
 
 }
+

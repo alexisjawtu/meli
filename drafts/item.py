@@ -3,7 +3,7 @@ import math
 
 class Item:
 
-    def __init__ (self, sku, weight, volume, stock, position_labels, picked):
+    def __init__ (self, sku, weight, volume, stock, position_labels, in_stock):
         self.sku                = sku
         self.weight             = weight
         self.volume             = volume
@@ -64,8 +64,8 @@ class Item:
 
     def closest (self, items=[]):
         i = 0
-        while items[i].picked == True:
-            i += 1
+        #while items[i].picked == True:
+        #    i += 1
         the_closest         = items[i]
         min_label, min_dist = self.distance(the_closest)
         i_min = i
@@ -90,31 +90,18 @@ class Item:
             self.stock.pop(position_label)
   
 def load (demand):
-    f = open (demand)
-    d = json.load(f)
-    
-    """
-    for item in d['stock']: print(type(item))
-    print("\n\n")
-    for k in iter(d['stock'].items()):
-        print(k)"""
-
-    items = [] # list with Item class objects
-    q = d['stock']
-    r = d['demand']
+    with open (demand, 'r') as f:
+        d = json.load(f)
+    # q = d['stock']
     # identify by sku
-    aux_dic = {}
-    for i in r:
-        aux_dic[i["sku"]] = i
-
-    print(aux_dic)
-
+    demand = { i["sku"] : i for i in d['demand'] }
     #weight = d[]
     #volume = d[]
-    for sku in q:
-        pass
-        #item = Item(sku,d[sku][])
-
+    items = [] # list with Item class objects
+    for sku, data in iter(demand.items()):
+        item = Item(sku,data["weight"],data["volume"],d["stock"][sku],\
+                    d['stock'][sku].keys(),True)
+        items.append(item)
     return items
 
 def label_distance (label_one, label_two):
