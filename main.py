@@ -1,29 +1,36 @@
 import math
+from route import *
 
-## ruta = [(sku,pos_label), ..., (sku,pos_label)]
+## items are pairs (sku,position_label,index_in_json)
+## ruote.items = [(sku,pos_label), ..., (sku,pos_label)]
+## I asume that an empty rout can load any single item
 
-while len(demanda) > 0:
-    ruta            = []
-    resto peso      = PESO_MAX
-    resto vol       = MAX_VOL
-    resto cantidad  = MAX_CANT
-    actual          =  closest a la entrada
-    while ruta.get_open():
-        armo lista de tuplas temp = [(sku, pos_label1,...,pos_labeln)]
-        pispeo en temp el mas cercano a actual
-            (tengo que tener el indice donde esta el mas proximo)
-        si sirve():
-            ruta.agregar(+cercano)
-            actual = +cercanos
-        temp.pop()
+WEIGHT   = 1000
+VOLUME   = 1000
+QUANTITY = 100
+ENTRANCE = "MZ-1-000-000"
 
+def load (demand_json):
+    with open (demand_json,'r') as f:
+        d = json.load(f)
+    return d
 
-sirve():
+def listing (demand_dict):
+    items_list = []
+    guardar indice en la lista del json
+    for sku in demand_dict:
+        items_list += [(sku,position_label,json_idx) for position_label in d["stock"][sku]]
+
+data          = load("demand.json")
+demand, stock = (data["demand"], data["stock"])
+
+demand_descr  = { i["sku"] : i for i in d['demand'] }
+
+def check_eligible():
     check peso
     check vol
     check cantidad
     check colisiones
-
 
 def label_distance (label_one, label_two):
     """ 
@@ -52,7 +59,7 @@ def label_distance (label_one, label_two):
     #print("crosses {}".format(crosses))
     #print("horizontal_correction {}".format(horizontal_correction))
     #print("diff_position {}".format(diff_position))
-    if crosses == 0 and aisles > 0:
+        if crosses == 0 and aisles > 0:
         vertic_gap = min(layers[0] % 7 + layers[1] % 7, 16 - layers[0] % 7 - layers[1] % 7)
     else:
         vertic_gap = 3*crosses + diff_position
@@ -72,20 +79,50 @@ def point_set_distance (current_label, other_labels):
 
     return (dist_realiz,current_min)
 
-def closest (items=[]):
+def closest (item, items=[]):
     i = 0
-    #while items[i].picked == True:
-    #    i += 1
     the_closest         = items[i]
-    min_label, min_dist = distance(****)
+    min_label, min_dist = distance(the_closest)
     i_min = i
     for k in range(i+1,len(items)):
         if items[k].get_in_stock:
-            l, d = distance(item)
+            l, d = point_set_distance(item)
             if d < min_dist:
                 min_label, min_dist = (l, d)
                 i_min = k
-    #the_closest = items[i_min]
-    #the_closest.set_routed_label(l)
-    return i_min, min_label, min_dist
+    return i_min, min_dist
+
+while len(demand) > 0:
+    demand2 = copy demand
+CONTINUE HERE ---> agregar un campo temporarily_watched en demand del json y poner
+                 un if con eso en la local search y resetearlo cuando termina el ciclo de esa ruta
+                 es mas, puedo poner temporarily_watched en todos los de igual sku porque el rechazo
+                 va a ser por peso o volumen
+
+    items       = listing(demand)
+    actual_item = ("",ENTRANCE)
+    route       = Route([],WEIGHT,VOLUME,QUANTITY,True)
+--->demand_item_index, *stock_label_index*, min_distance = closest(actual_item, demand   items)
+    
+--->first_item = demand.pop(demand_item_index)<----
+    # TODO Here an Item Class becomes handy
+    weight = demand_descr[first_item[0]["weight"]]
+    volume = demand_descr[first_item[0]["volume"]]
+    route.add_item(first_item,weight,volume,min_distance)
+    stock[first_item[0]][first_item[1]] -= 1
+    if stock[first_item[0]][first_item[1]] == 0:
+        stock[first_item[0]].pop(first_item[1])
+--->#demand.pop()
+    actual_item = first_item
+    while route.is_open() and len(unwatched) > 0:
+        #armo lista de tuplas temp = [(sku, pos_label), ... , (sku,pos_label)]
+--->    min_item_index, min_distance = closest(actual_item,items)
+        next_candidate = items[min_item_index]
+        if route.accepts (next_candidate):
+            ruta.agregar(+cercano)
+            actual = +cercanos
+            demand.pop(  )
+            unwatched.
+--->    else:
+            unwatched.  falta algo que marque los que ya no sirvieron, sin borrarlos de la demanda
 
