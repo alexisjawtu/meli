@@ -1,36 +1,21 @@
+## I assume that an empty route can load any single item
+## I assume users can only buy in--stock goods
+
+import json
 import math
 from route import *
 
-## items are pairs (sku,position_label,index_in_json)
-## ruote.items = [(sku,pos_label), ..., (sku,pos_label)]
-## I asume that an empty rout can load any single item
-
-WEIGHT   = 1000
-VOLUME   = 1000
-QUANTITY = 100
+WEIGHT   = 99
+VOLUME   = 199
+QUANTITY = 5
 ENTRANCE = "MZ-1-000-000"
 
 def load (demand_json):
     with open (demand_json,'r') as f:
         d = json.load(f)
+    for i in d['demand']:
+        i["unwatched"] = True
     return d
-
-def listing (demand_dict):
-    items_list = []
-    guardar indice en la lista del json
-    for sku in demand_dict:
-        items_list += [(sku,position_label,json_idx) for position_label in d["stock"][sku]]
-
-data          = load("demand.json")
-demand, stock = (data["demand"], data["stock"])
-
-demand_descr  = { i["sku"] : i for i in d['demand'] }
-
-def check_eligible():
-    check peso
-    check vol
-    check cantidad
-    check colisiones
 
 def label_distance (label_one, label_two):
     """ 
@@ -55,11 +40,7 @@ def label_distance (label_one, label_two):
     diff_position = max(layers)-min(layers)
     horizontal_correction = vert_pos_left % 2 - vert_pos_right % 2
     crosses       = sum([int(i % 7 == 0) for i in range(min(layers),max(layers))])
-    #print("aisles {}".format(aisles))
-    #print("crosses {}".format(crosses))
-    #print("horizontal_correction {}".format(horizontal_correction))
-    #print("diff_position {}".format(diff_position))
-        if crosses == 0 and aisles > 0:
+    if crosses == 0 and aisles > 0:
         vertic_gap = min(layers[0] % 7 + layers[1] % 7, 16 - layers[0] % 7 - layers[1] % 7)
     else:
         vertic_gap = 3*crosses + diff_position
@@ -79,50 +60,60 @@ def point_set_distance (current_label, other_labels):
 
     return (dist_realiz,current_min)
 
-def closest (item, items=[]):
-    i = 0
-    the_closest         = items[i]
-    min_label, min_dist = distance(the_closest)
-    i_min = i
-    for k in range(i+1,len(items)):
-        if items[k].get_in_stock:
-            l, d = point_set_distance(item)
-            if d < min_dist:
-                min_label, min_dist = (l, d)
-                i_min = k
-    return i_min, min_dist
+def closest (item, demand_items, stock):
+    closest_sku         = demand_items[0]["sku"]
+    closest_position    = next(iter(stock[closest_sku].keys()))
+    min_distance        = label_distance(closest_position,item["stock_label"])
+    i_min               = 0
+    for k in range(len(demand_items)):
+        if demand_items[k]["unwatched"]:
+            for position in stock[demand_items[k]["sku"]]:
+                d = label_distance(position, item["stock_label"])
+                if d < min_distance:
+                    closest_position = position
+                    min_distance = d
+                    i_min = k
+    return i_min, closest_position, min_distance
 
+
+data          = load("demand.json")
+demand, stock = (data["demand"], data["stock"])
+
+still_unwatched = len(demand) - 1
 while len(demand) > 0:
-    demand2 = copy demand
-CONTINUE HERE ---> agregar un campo temporarily_watched en demand del json y poner
+    """demand2 = copy demand
+    CONTINUE HERE ---> agregar un campo temporarily_watched en demand del json y poner
                  un if con eso en la local search y resetearlo cuando termina el ciclo de esa ruta
                  es mas, puedo poner temporarily_watched en todos los de igual sku porque el rechazo
                  va a ser por peso o volumen
-
-    items       = listing(demand)
-    actual_item = ("",ENTRANCE)
-    route       = Route([],WEIGHT,VOLUME,QUANTITY,True)
---->demand_item_index, *stock_label_index*, min_distance = closest(actual_item, demand   items)
-    
---->first_item = demand.pop(demand_item_index)<----
-    # TODO Here an Item Class becomes handy
-    weight = demand_descr[first_item[0]["weight"]]
-    volume = demand_descr[first_item[0]["volume"]]
-    route.add_item(first_item,weight,volume,min_distance)
-    stock[first_item[0]][first_item[1]] -= 1
-    if stock[first_item[0]][first_item[1]] == 0:
-        stock[first_item[0]].pop(first_item[1])
---->#demand.pop()
-    actual_item = first_item
-    while route.is_open() and len(unwatched) > 0:
-        #armo lista de tuplas temp = [(sku, pos_label), ... , (sku,pos_label)]
---->    min_item_index, min_distance = closest(actual_item,items)
-        next_candidate = items[min_item_index]
-        if route.accepts (next_candidate):
-            ruta.agregar(+cercano)
-            actual = +cercanos
-            demand.pop(  )
-            unwatched.
---->    else:
-            unwatched.  falta algo que marque los que ya no sirvieron, sin borrarlos de la demanda
-
+    """
+    last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
+    route     = Route([],WEIGHT,VOLUME,QUANTITY,0,True)
+    demand_item_index, stock_label, min_distance = closest(last_item, demand, stock)
+    last_item = demand.pop(demand_item_index)
+    last_item["stock_label"] = stock_label
+    last_item["added_distance"] = min_distance
+    #print(last_item)
+    # TODO Here an Item Class may become handy
+    route.add_item(last_item)
+    stock[last_item["sku"]][stock_label] -= 1
+    if stock[last_item["sku"]][stock_label] == 0:
+        stock[last_item["sku"]].pop(stock_label)
+    while route.is_open() and len(demand)>0 and still_unwatched > 0:
+        min_item_index, stock_label, min_distance = closest(last_item, demand, stock)
+        candidate = demand[min_item_index].copy()
+        if route.accepts(candidate):
+            last_item = demand.pop(min_item_index)
+            last_item["stock_label"]    = stock_label
+            last_item["added_distance"] = min_distance
+            route.add_item(last_item)
+            stock[last_item["sku"]][stock_label] -= 1
+            if stock[last_item["sku"]][stock_label] == 0:
+                stock[last_item["sku"]].pop(stock_label)
+        else:
+            still_unwatched -= 1
+            demand[min_item_index]["unwatched"] = False
+            #TODO put unwatched in all the demand items with same sku
+    still_unwatched = len(demand) - 1
+    route.opened = False
+    print(route)
