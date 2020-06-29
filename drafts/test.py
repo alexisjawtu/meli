@@ -82,16 +82,3 @@ print(str(label_distance("MZ-1-005-010","MZ-1-006-009"))+"\n")
 
 }
 
-
-
-First version of greedy backtracking approach running.
-Started testing.
-now temporary items are dicts with the collected fields from "demand" and "stock" out of the json.
-
-TODO: put constants weight etc, and do the overall math with weight instead of
-weight_left 
-TODO: " ".format() the __str__ output
-
-
-
-

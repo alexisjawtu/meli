@@ -9,9 +9,18 @@ class Route:
         self.opened = opened
 
     def __str__(self):
-        return str(self.items)+"\n"+str(self.weight_left)+"\n"\
-               +str(self.volume_left)+"\n"+str(self.quant_left)+"\n"\
-               +str(self.opened)+"\n"+str(self.length)+"\n"
+        head = "Cantidad: {}. Peso: {}. Volumen: {}. Distancia a recorrer: {}.\n\n"
+        head = head.format(str(self.quant_left),str(self.weight_left),\
+                 str(self.volume_left),str(self.length))
+        body = ''
+        for i in range(len(self.items)):
+            body += "{}. Pos: {}, sku: {}\n".format(i+1,self.items[i][1],self.items[i][0])
+        return head + body
+
+    def to_txt (self, route_number):
+        with open ("ruta_{}.txt".format(route_number),"w") as out:
+            out.write("RUTA {}\n".format(route_number))
+            out.write(str(self))
 
     def is_open (self):
         return self.opened

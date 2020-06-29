@@ -1,0 +1,7 @@
+RUTA 1
+Cantidad: 1. Peso: 7. Volumen: 49. Distancia a recorrer: 67.
+
+1. Pos: MZ-1-003-009, sku: BSYQU8
+2. Pos: MZ-1-004-023, sku: T58GAK
+3. Pos: MZ-1-003-030, sku: S58GAK
+4. Pos: MZ-1-006-013, sku: ASYQU8
