@@ -10,6 +10,15 @@ VOLUME   = 199
 QUANTITY = 5
 ENTRANCE = "MZ-1-000-000"
 
+# unitary distances
+BOX   = 1 # 1 BLOCK == 7 BOXES
+AISLE = 4
+CROSS = 3
+
+def char_range(a,b):
+    for c in range(ord(a),ord(b)+1):
+        yield chr(c)
+
 def load (demand_json):
     with open (demand_json,'r') as f:
         d = json.load(f)
@@ -25,20 +34,20 @@ def label_distance (label_one, label_two):
     """ 
     l = [label_one,label_two]
     l.sort()
-    left, right = tuple(l)
+    left, right   = tuple(l)
     if left[5:8] == right[5:8] and int(left[9:12]) % 2 == 0:
         left, right = right, left
-    aisles          = int(right[5:8]) - int(left[5:8])
+    aisles        = int(right[5:8]) - int(left[5:8])
     vert_pos_left, vert_pos_right = int(left[9:12]), int(right[9:12])
     layers        = [math.ceil(vert_pos_left/2),math.ceil(vert_pos_right/2)]
-    diff_position = max(layers)-min(layers)
+    diff_position = BOX*(max(layers)-min(layers))
     horizontal_correction = vert_pos_left % 2 - vert_pos_right % 2
     crosses       = sum([int(i % 7 == 0) for i in range(min(layers),max(layers))])
     if crosses == 0 and aisles > 0:
         vertic_gap = min(layers[0] % 7 + layers[1] % 7, 16 - layers[0] % 7 - layers[1] % 7)
     else:
-        vertic_gap = 3*crosses + diff_position
-    horiz_gap = 4*aisles + horizontal_correction
+        vertic_gap = CROSS*crosses + diff_position
+    horiz_gap = AISLE*aisles + horizontal_correction
     return vertic_gap + horiz_gap
 
 def closest (item, demand_items, stock):
@@ -60,10 +69,13 @@ def unwatch_all(demand):
     for i in demand:
         i["unwatched"] = True
 
-data            = load("demand1.json")
+#data            = load("to_avoid/avoid1.json")
+data            = load("demand.json")
 demand, stock   = (data["demand"], data["stock"])
 still_unwatched = len(demand) - 1
 route_number    = 1
+
+output = { "routes" : [] }
 
 while len(demand) > 0:
     last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
@@ -93,6 +105,9 @@ while len(demand) > 0:
     still_unwatched = len(demand) - 1
     unwatch_all(demand)
     route.opened = False
-    route.to_txt(route_number)
+    output["routes"] += [route.to_json()]
     route_number += 1
     del(route)
+
+with open ("output.json","w") as outfile:
+    json.dump (output, outfile, indent = 4)

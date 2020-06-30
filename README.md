@@ -15,7 +15,11 @@
 3.  think about the objective functions Alejandro said
 4.  PERHAPS same--aisle--preference CONSTRAINTS
 5.  if next closest crosses two cross aisles back, then mark as watched and
-continue, to avoid ./avoid1.json
+continue, to avoid ./avoid1.json UNLESS all the remaining items fit into the
+current ROUTE! (the risk is to have an entire extra route for just one remaining
+item.)
+
+
 6.  put constants weight etc, and do the overall math with weight instead of
 weight_left
 7. Put constants named: box, rails, etc, all equal to 1,
