@@ -5,15 +5,29 @@ import json
 import math
 from route import *
 
-ENTRANCE = "MZ-1-000-000"
-
 # unitary distances
 BOX   = 1 # 1 BLOCK == 7 BOXES
 AISLE = 4
 CROSS = 3
+ENTRANCE = "MZ-1-000-000"
 
-def test_collisions (item, routes):
-    pass
+def non_collider(stock_label,collision_table,route):
+    """ layers and blocks start with 0 to work clean with the quotient by 7.
+        block 0 == (layer0 ... layer6) 
+        block 1 == (layer7 ... layer13), etc. """
+
+    picking_step = route.quantity + 1
+    
+    layer      = math.ceil(int(stock_label[9:12])/2) - 1
+    block, rem = divmod(layer,7)
+    aisle      = stock_label[5:8]
+    x          = aisle_block_table.get(block, {}).get(aisle, 0) < 2
+    return x
+
+def update_collision_table(stock_label,collision_table):
+    layer      = math.ceil(int(stock_label[9:12])/2) - 1
+    block, rem = divmod(layer,7)
+    collision_table[block] = collision_table.get(block, { stock_label[5:8] : 0 }) + 1
 
 def char_range(a,b):
     for c in range(ord(a),ord(b)+1):
@@ -69,41 +83,51 @@ def unwatch_all(demand):
     for i in demand:
         i["unwatched"] = True
 
-#data            = load("to_avoid/avoid1.json")
-data            = load("demand.json")
-demand, stock   = (data["demand"], data["stock"])
-still_unwatched = len(demand) - 1
-route_number    = 1
+#data             = load("to_avoid/avoid1.json")
+data              = load("demand.json")
+demand, stock     = (data["demand"], data["stock"])
+still_unwatched   = len(demand) - 1
+route_number      = 1
+collision_table   = { }
 
 output = { "routes" : [] }
 
 while len(demand) > 0:
     last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
     route     = Route(route_number,[],0,0,0,0,True)
-    demand_item_index, stock_label, min_distance = closest(last_item, demand, stock)
-    last_item = demand.pop(demand_item_index)
-    last_item["stock_label"] = stock_label
-    last_item["added_distance"] = min_distance
-    print("\n{}\n{}".format(route_number, min_distance))
-    route.add_item(last_item)
-    stock[last_item["sku"]][stock_label] -= 1
-    if stock[last_item["sku"]][stock_label] == 0:
-        stock[last_item["sku"]].pop(stock_label)
+    
+    #demand_item_index, stock_label, min_distance = closest(last_item, demand, stock)
+    #last_item = demand.pop(demand_item_index)
+    #last_item["stock_label"] = stock_label
+    #last_item["added_distance"] = min_distance
+    #route.add_item(last_item)
+
+    
+    #stock[last_item["sku"]][stock_label] -= 1
+    #if stock[last_item["sku"]][stock_label] == 0:
+    #    stock[last_item["sku"]].pop(stock_label)
+    
     while route.is_open() and len(demand)>0 and still_unwatched > 0:
         min_item_index, stock_label, min_distance = closest(last_item, demand, stock)
         candidate = demand[min_item_index].copy()
-        if route.accepts(candidate):
+        if route.accepts(candidate) and non_collider(stock_label,collision_table,route):
             last_item = demand.pop(min_item_index)
             last_item["stock_label"]    = stock_label
             last_item["added_distance"] = min_distance
             print(min_distance)
+            
             route.add_item(last_item)
+            update_collision_table(stock_label)
+            
+
+
             stock[last_item["sku"]][stock_label] -= 1
             if stock[last_item["sku"]][stock_label] == 0:
                 stock[last_item["sku"]].pop(stock_label)
         else:
             still_unwatched -= 1
             demand[min_item_index]["unwatched"] = False
+    
     still_unwatched = len(demand) - 1
     unwatch_all(demand)
     route.opened = False
