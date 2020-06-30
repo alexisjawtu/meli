@@ -5,15 +5,15 @@ import json
 import math
 from route import *
 
-WEIGHT   = 99
-VOLUME   = 199
-QUANTITY = 5
 ENTRANCE = "MZ-1-000-000"
 
 # unitary distances
 BOX   = 1 # 1 BLOCK == 7 BOXES
 AISLE = 4
 CROSS = 3
+
+def test_collisions (item, routes):
+    pass
 
 def char_range(a,b):
     for c in range(ord(a),ord(b)+1):
@@ -79,11 +79,12 @@ output = { "routes" : [] }
 
 while len(demand) > 0:
     last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
-    route     = Route([],WEIGHT,VOLUME,QUANTITY,0,True)
+    route     = Route(route_number,[],0,0,0,0,True)
     demand_item_index, stock_label, min_distance = closest(last_item, demand, stock)
     last_item = demand.pop(demand_item_index)
     last_item["stock_label"] = stock_label
     last_item["added_distance"] = min_distance
+    print("\n{}\n{}".format(route_number, min_distance))
     route.add_item(last_item)
     stock[last_item["sku"]][stock_label] -= 1
     if stock[last_item["sku"]][stock_label] == 0:
@@ -95,6 +96,7 @@ while len(demand) > 0:
             last_item = demand.pop(min_item_index)
             last_item["stock_label"]    = stock_label
             last_item["added_distance"] = min_distance
+            print(min_distance)
             route.add_item(last_item)
             stock[last_item["sku"]][stock_label] -= 1
             if stock[last_item["sku"]][stock_label] == 0:
@@ -106,6 +108,7 @@ while len(demand) > 0:
     unwatch_all(demand)
     route.opened = False
     output["routes"] += [route.to_json()]
+    route.to_txt()
     route_number += 1
     del(route)
 
