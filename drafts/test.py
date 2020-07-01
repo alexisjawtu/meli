@@ -87,3 +87,6 @@ def non_collider(stock_label, aisle_block_table):
     print(aisle_block_table.get(block, {}).get(aisle, 0))
     return x
 
+def char_range(a,b):
+    for c in range(ord(a),ord(b)+1):
+        yield chr(c)

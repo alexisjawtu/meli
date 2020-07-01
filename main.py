@@ -21,23 +21,19 @@ def non_collider(stock_label,collision_table,route):
     layer      = math.ceil(int(stock_label[9:12])/2) - 1
     block, rem = divmod(layer,7)
     aisle      = stock_label[5:8]
-    x          = aisle_block_table.get(block, {}).get(aisle, 0) < 2
+    x          = collision_table.get(block, {}).get(aisle, 0) < 2
     return x
 
 def update_collision_table(stock_label,collision_table):
     layer      = math.ceil(int(stock_label[9:12])/2) - 1
+    aisle      = stock_label[5:8]
     block, rem = divmod(layer,7)
-    collision_table[block] = collision_table.get(block, { stock_label[5:8] : 0 }) + 1
-
-def char_range(a,b):
-    for c in range(ord(a),ord(b)+1):
-        yield chr(c)
+    collision_table[block] = collision_table.get(block, { aisle : 0 })
+    collision_table[block][aisle] = collision_table[block].get(aisle, 0) + 1
 
 def load (demand_json):
     with open (demand_json,'r') as f:
         d = json.load(f)
-    for i in d['demand']:
-        i["unwatched"] = True
     return d
 
 def label_distance (label_one, label_two):
@@ -65,50 +61,50 @@ def label_distance (label_one, label_two):
     return vertic_gap + horiz_gap
 
 def closest (item, demand_items, stock):
-    closest_sku         = demand_items[0]["sku"]
+    i_min               = 0
+    closest_sku         = demand_items[i_min]["sku"]
     closest_position    = next(iter(stock[closest_sku].keys()))
     min_distance        = label_distance(closest_position,item["stock_label"])
-    i_min               = 0
     for k in range(len(demand_items)):
         if demand_items[k]["unwatched"]:
             for position in stock[demand_items[k]["sku"]]:
                 d = label_distance(position, item["stock_label"])
                 if d < min_distance:
                     closest_position = position
-                    min_distance = d
-                    i_min = k
+                    min_distance     = d
+                    i_min            = k
     return i_min, closest_position, min_distance
 
 def unwatch_all(demand):
     for i in demand:
         i["unwatched"] = True
 
+
 #data             = load("to_avoid/avoid1.json")
-data              = load("demand.json")
+data              = load("2/demand2.json")
 demand, stock     = (data["demand"], data["stock"])
-still_unwatched   = len(demand) - 1
+unwatch_all(demand)
+still_unwatched   = len(demand)
 route_number      = 1
 collision_table   = {}
 
 output = { "routes" : [] }
-
+print ("len(demand) {}".format(len(demand)))
 while len(demand) > 0:
     last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
     route     = Route(route_number,[],0,0,0,0,True)
-    
     while route.is_open() and len(demand) > 0 and still_unwatched > 0:
         min_item_index, stock_label, min_distance = closest(last_item, demand, stock)
         candidate = demand[min_item_index]
         if route.accepts(candidate) and non_collider(stock_label,collision_table,route):
             last_item = demand.pop(min_item_index)
             last_item["stock_label"]    = stock_label
+            print(last_item["sku"])
             last_item["added_distance"] = min_distance
             route.add_item(last_item)
-            update_collision_table(stock_label)
+            update_collision_table(stock_label,collision_table)
             
-            ## CONTINUE HERE set unwatched to True or False in the right part
-            ## of the code. When should I set unwatched to False?
-            ## Then test one case by hand to see it keeps working
+            ## test distance from one centered label to surrounding labels
             ## Then CROSSES COLLISION criterion
 
             stock[last_item["sku"]][stock_label] -= 1
@@ -118,11 +114,10 @@ while len(demand) > 0:
             still_unwatched -= 1
             demand[min_item_index]["unwatched"] = False
     
-    still_unwatched = len(demand) - 1
     unwatch_all(demand)
+    still_unwatched = len(demand)
     route.opened = False
     output["routes"] += [route.to_json()]
-    route.to_txt()
     route_number += 1
     del(route)
 
