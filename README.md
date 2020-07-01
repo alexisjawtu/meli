@@ -1,17 +1,16 @@
 # meli
 
 ## Hypotheses assumed
-1. All the single items fit into one empty route.
-2. There is a starting point, for all the routes, called ENTRANCE, at "MZ-1-000-000".
+1. There is a starting point, for all the routes, called ENTRANCE, at "MZ-1-000-000".
 Distance from ENTRANCE to MZ-1-001-001 is 7 (1 aisle and 1 cross).
-3. Users know the position labels and we only enumerate the picking order.
-4. Everything adds 1 to the route distance (e.g. a rail in a cross aisle,
+2. Users know the position labels and we only enumerate the picking order.
+3. Everything adds 1 to the route distance (e.g. a rail in a cross aisle,
    moving from one box to another.)
-5. There are no items in demand with the same sku.
-6. Everything is in the same area, same floor.
-7. There are additional single routes output because python dicts have unordered
+4. There are no items in demand with the same sku.
+5. Everything is in the same area, same floor.
+6. There are additional single routes output because python dicts have unordered
 keys.
-8.  Collision Constraints
+7.  Collision Constraints
     1.  first phase: no three items in same aisle - block - picking_step,
         where 1 <= picking_step <= Route.QUANTITY 
 { 

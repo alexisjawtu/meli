@@ -1,0 +1,5 @@
+RUTA 1
+Cantidad: 2. Peso: 95. Volumen: 109. Distancia a recorrer: 31.
+
+1. Pos: MZ-1-001-027, sku: U58GAK
+2. Pos: MZ-1-001-037, sku: Z58GAK

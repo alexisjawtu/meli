@@ -1,0 +1,4 @@
+RUTA 3
+Cantidad: 1. Peso: 65. Volumen: 36. Distancia a recorrer: 36.
+
+1. Pos: MZ-1-002-038, sku: X58GAK

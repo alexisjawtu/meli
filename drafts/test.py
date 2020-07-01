@@ -1,15 +1,5 @@
-import math
-
+"""
 def label_distance (label_one, label_two):
-    """ 
-    labels are MZ-1-003-008: 
-                   area-floor-aisle-position 
-    this distance takes everything as unitary
-
-                               { -1 if even - odd
-    horizontal_correction    = {  0 if same parity
-                               { +1 if odd - even
-    """
     ## Assuming we are always in the same area-floor
     l = [label_one,label_two]
     l.sort()
@@ -70,9 +60,6 @@ print(str(label_distance("MZ-1-004-021","MZ-1-003-022"))+"\n")
 print("l MZ-1-005-010 ... MZ-1-006-009:")
 print(str(label_distance("MZ-1-005-010","MZ-1-006-009"))+"\n")
 
-
-
-
 {
 
 'S58GAK': 
@@ -81,4 +68,22 @@ print(str(label_distance("MZ-1-005-010","MZ-1-006-009"))+"\n")
  {'weight': 10, 'volume': 40, 'etd': '2020-03-20T14:40:00.000-03:00', 'sku': 'ASYQU8'}
 
 }
+
+"""
+import math
+
+def non_collider(stock_label, aisle_block_table):
+    """ layers and blocks start with 0 to work clean with the quotient by 7.
+        block 0 == (layer0 ... layer6) 
+        block 1 == (layer7 ... layer13), etc. 
+    """
+    layer      = math.ceil(int(stock_label[9:12])/2) - 1
+    print(layer)
+    block, rem = divmod(layer,7)
+    print(block)
+    aisle      = stock_label[5:8]
+    print(aisle)
+    x          = aisle_block_table.get(block, {}).get(aisle, 0) < 2
+    print(aisle_block_table.get(block, {}).get(aisle, 0))
+    return x
 

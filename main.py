@@ -3,7 +3,7 @@
 
 import json
 import math
-from route import *
+from   route import *
 
 # unitary distances
 BOX   = 1 # 1 BLOCK == 7 BOXES
@@ -88,7 +88,7 @@ data              = load("demand.json")
 demand, stock     = (data["demand"], data["stock"])
 still_unwatched   = len(demand) - 1
 route_number      = 1
-collision_table   = { }
+collision_table   = {}
 
 output = { "routes" : [] }
 
@@ -96,30 +96,20 @@ while len(demand) > 0:
     last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
     route     = Route(route_number,[],0,0,0,0,True)
     
-    #demand_item_index, stock_label, min_distance = closest(last_item, demand, stock)
-    #last_item = demand.pop(demand_item_index)
-    #last_item["stock_label"] = stock_label
-    #last_item["added_distance"] = min_distance
-    #route.add_item(last_item)
-
-    
-    #stock[last_item["sku"]][stock_label] -= 1
-    #if stock[last_item["sku"]][stock_label] == 0:
-    #    stock[last_item["sku"]].pop(stock_label)
-    
-    while route.is_open() and len(demand)>0 and still_unwatched > 0:
+    while route.is_open() and len(demand) > 0 and still_unwatched > 0:
         min_item_index, stock_label, min_distance = closest(last_item, demand, stock)
-        candidate = demand[min_item_index].copy()
+        candidate = demand[min_item_index]
         if route.accepts(candidate) and non_collider(stock_label,collision_table,route):
             last_item = demand.pop(min_item_index)
             last_item["stock_label"]    = stock_label
             last_item["added_distance"] = min_distance
-            print(min_distance)
-            
             route.add_item(last_item)
             update_collision_table(stock_label)
             
-
+            ## CONTINUE HERE set unwatched to True or False in the right part
+            ## of the code. When should I set unwatched to False?
+            ## Then test one case by hand to see it keeps working
+            ## Then CROSSES COLLISION criterion
 
             stock[last_item["sku"]][stock_label] -= 1
             if stock[last_item["sku"]][stock_label] == 0:
