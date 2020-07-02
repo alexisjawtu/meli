@@ -11,30 +11,25 @@ AISLE = 4
 CROSS = 3
 ENTRANCE = "MZ-1-000-000"
 
-def non_collider(stock_label,collision_table,route):
-    """ layers and blocks start with 0 to work clean with the quotient by 7.
-        block 0 == (layer0 ... layer6) 
-        block 1 == (layer7 ... layer13), etc. """
-
-    picking_step = route.quantity + 1
-    
-    layer      = math.ceil(int(stock_label[9:12])/2) - 1
-    block, rem = divmod(layer,7)
-    aisle      = stock_label[5:8]
-    x          = collision_table.get(block, {}).get(aisle, 0) < 2
-    return x
-
-def update_collision_table(stock_label,collision_table):
-    layer      = math.ceil(int(stock_label[9:12])/2) - 1
-    aisle      = stock_label[5:8]
-    block, rem = divmod(layer,7)
-    collision_table[block] = collision_table.get(block, { aisle : 0 })
-    collision_table[block][aisle] = collision_table[block].get(aisle, 0) + 1
-
 def load (demand_json):
     with open (demand_json,'r') as f:
         d = json.load(f)
     return d
+
+def check_collision_table(stock_label,route,collision_table):
+    picking_turn = route.quantity + 1
+    position     = int(stock_label[9:12])
+    aisle        = stock_label[5:8]
+    block        = math.ceil(position/14)
+    key          = "{}-{}-{}".format(block,aisle,picking_turn)
+    check = False
+    if (len(collision_table.get(key, [])) < 2):
+        check = True
+        # update table
+        collision_table[key] = collision_table.get(key, []) + [route.number]
+    print("{}\n".format(collision_table))
+    return check
+
 
 def label_distance (label_one, label_two):
     """ 
@@ -80,46 +75,47 @@ def unwatch_all(demand):
         i["unwatched"] = True
 
 
-#data             = load("to_avoid/avoid1.json")
-data              = load("2/demand2.json")
+## main cycle   
+data              = load("demand.json")
 demand, stock     = (data["demand"], data["stock"])
 unwatch_all(demand)
 still_unwatched   = len(demand)
 route_number      = 1
 collision_table   = {}
-
+print(len(demand))
 output = { "routes" : [] }
-print ("len(demand) {}".format(len(demand)))
-while len(demand) > 0:
-    last_item = { "sku" : "", "weight" : 0, "volume" : 0, "stock_label" : ENTRANCE }
+
+# this is a temporary forced stopping criterion.
+k=0
+
+while (len(demand) > 0 and k < len(demand) + 2):
+    last_item = {"sku":"","weight":0,"volume":0,"stock_label":ENTRANCE}
     route     = Route(route_number,[],0,0,0,0,True)
-    while route.is_open() and len(demand) > 0 and still_unwatched > 0:
-        min_item_index, stock_label, min_distance = closest(last_item, demand, stock)
+    while (route.is_open() and len(demand) > 0 and still_unwatched > 0):
+        min_item_index,stock_label,min_distance = closest(last_item,demand,
+                                                          stock)
         candidate = demand[min_item_index]
-        if route.accepts(candidate) and non_collider(stock_label,collision_table,route):
+        if (route.accepts(candidate)
+                and check_collision_table(stock_label,route,collision_table)):
             last_item = demand.pop(min_item_index)
             last_item["stock_label"]    = stock_label
-            print(last_item["sku"])
             last_item["added_distance"] = min_distance
             route.add_item(last_item)
-            update_collision_table(stock_label,collision_table)
-            
-            ## test distance from one centered label to surrounding labels
-            ## Then CROSSES COLLISION criterion
-
-            stock[last_item["sku"]][stock_label] -= 1
+            stock[last_item["sku"]][stock_label]    -= 1
             if stock[last_item["sku"]][stock_label] == 0:
                 stock[last_item["sku"]].pop(stock_label)
         else:
             still_unwatched -= 1
             demand[min_item_index]["unwatched"] = False
-    
     unwatch_all(demand)
-    still_unwatched = len(demand)
-    route.opened = False
+    still_unwatched   = len(demand)
+    route.opened      = False
     output["routes"] += [route.to_json()]
-    route_number += 1
+    route.to_txt()
+    route_number     += 1
     del(route)
+    k+=1
+    ### how to watch/unwatch to the next turn of routes ?
 
 with open ("output.json","w") as outfile:
     json.dump (output, outfile, indent = 4)
