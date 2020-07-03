@@ -20,14 +20,14 @@ def check_collision_table(stock_label,route,collision_table):
     picking_turn = route.quantity + 1
     position     = int(stock_label[9:12])
     aisle        = stock_label[5:8]
+    side         = position % 2
     block        = math.ceil(position/14)
-    key          = "{}-{}-{}".format(block,aisle,picking_turn)
+    key          = "{}-{}-{}-{}".format(block,aisle,side,picking_turn)
     check = False
-    if (len(collision_table.get(key, [])) < 2):
+    if (len(collision_table.get(key, [])) < 3):
         check = True
         # update table
         collision_table[key] = collision_table.get(key, []) + [route.number]
-    print("{}\n".format(collision_table))
     return check
 
 
@@ -81,14 +81,15 @@ demand, stock     = (data["demand"], data["stock"])
 unwatch_all(demand)
 still_unwatched   = len(demand)
 route_number      = 1
+turn              = 1 # we split the routes into picking turns
 collision_table   = {}
 print(len(demand))
 output = { "routes" : [] }
 
 # this is a temporary forced stopping criterion.
-k=0
-
-while (len(demand) > 0 and k < len(demand) + 2):
+#k=0
+#w = len(demand)
+while (len(demand) > 0):
     last_item = {"sku":"","weight":0,"volume":0,"stock_label":ENTRANCE}
     route     = Route(route_number,[],0,0,0,0,True)
     while (route.is_open() and len(demand) > 0 and still_unwatched > 0):
@@ -107,15 +108,23 @@ while (len(demand) > 0 and k < len(demand) + 2):
         else:
             still_unwatched -= 1
             demand[min_item_index]["unwatched"] = False
+
     unwatch_all(demand)
     still_unwatched   = len(demand)
     route.opened      = False
-    output["routes"] += [route.to_json()]
-    route.to_txt()
-    route_number     += 1
+    if (len(route.items) > 0):
+        output["routes"] += [route.to_json()]
+        route.to_txt()
+        route_number     += 1
+    else:
+        # now we are left with hanging items. Set collision_table = {}
+        # and start over for the next turn of routes
+        collision_table = {}
+        turn += 1
+        with open ("output{}.json".format(turn),"w") as outfile:
+            json.dump (output, outfile, indent = 4)
+        output = { "routes" : [] }
     del(route)
-    k+=1
-    ### how to watch/unwatch to the next turn of routes ?
-
-with open ("output.json","w") as outfile:
+    #k+=1
+with open ("output{}.json".format(turn),"w") as outfile:
     json.dump (output, outfile, indent = 4)

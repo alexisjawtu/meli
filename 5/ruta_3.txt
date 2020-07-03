@@ -1,0 +1,9 @@
+RUTA 3
+Cantidad: 6. Peso: 120. Volumen: 190. Distancia a recorrer hasta el item final: 14.
+
+1. Pos: MZ-1-001-009, sku: E
+2. Pos: MZ-1-001-009, sku: D
+3. Pos: MZ-1-001-010, sku: G
+4. Pos: MZ-1-001-010, sku: Z58GAK
+5. Pos: MZ-1-001-012, sku: S58GAK
+6. Pos: MZ-1-001-014, sku: W

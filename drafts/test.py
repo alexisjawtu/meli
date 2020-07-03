@@ -69,14 +69,8 @@ print(str(label_distance("MZ-1-005-010","MZ-1-006-009"))+"\n")
 
 }
 
-"""
-import math
 
 def non_collider(stock_label, aisle_block_table):
-    """ layers and blocks start with 0 to work clean with the quotient by 7.
-        block 0 == (layer0 ... layer6) 
-        block 1 == (layer7 ... layer13), etc. 
-    """
     layer      = math.ceil(int(stock_label[9:12])/2) - 1
     print(layer)
     block, rem = divmod(layer,7)
@@ -87,6 +81,14 @@ def non_collider(stock_label, aisle_block_table):
     print(aisle_block_table.get(block, {}).get(aisle, 0))
     return x
 
+"""
 def char_range(a,b):
     for c in range(ord(a),ord(b)+1):
         yield chr(c)
+
+import math
+
+if True
+    and True
+    or False:
+    print(8)

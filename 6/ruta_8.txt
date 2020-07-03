@@ -1,0 +1,7 @@
+RUTA 8
+Cantidad: 4. Peso: 40. Volumen: 160. Distancia a recorrer hasta el item final: 21.
+
+1. Pos: MZ-1-003-007, sku: 15
+2. Pos: MZ-1-003-008, sku: 16
+3. Pos: MZ-1-003-010, sku: 10
+4. Pos: MZ-1-003-009, sku: 17

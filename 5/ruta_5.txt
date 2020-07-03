@@ -1,0 +1,7 @@
+RUTA 5
+Cantidad: 4. Peso: 105. Volumen: 169. Distancia a recorrer hasta el item final: 23.
+
+1. Pos: MZ-1-001-012, sku: U58GAK
+2. Pos: MZ-1-002-009, sku: 08
+3. Pos: MZ-1-002-007, sku: 06
+4. Pos: MZ-1-002-008, sku: 07

@@ -1,0 +1,4 @@
+RUTA 3
+Cantidad: 1. Peso: 75. Volumen: 49. Distancia a recorrer hasta el item final: 18.
+
+1. Pos: MZ-1-006-024, sku: U58GAK

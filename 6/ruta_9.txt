@@ -1,0 +1,4 @@
+RUTA 9
+Cantidad: 1. Peso: 10. Volumen: 40. Distancia a recorrer hasta el item final: 20.
+
+1. Pos: MZ-1-003-011, sku: 11

@@ -11,21 +11,21 @@ Distance from ENTRANCE to MZ-1-001-001 is 7 (1 aisle and 1 cross).
 6. There are additional single routes output because python dicts have unordered
 keys.
 7.  Collision Constraints
-    1.  first phase: no three items in same aisle - block - picking_step,
+    1.  first phase: no three items in same aisle - block - side - picking_step,
         where 1 <= picking_step <= Route.QUANTITY 
 { 
-    block 1 : { 
-                    aisle "003" : {
-                                      step 1 <= s <= Route.QUANTITY : MUST BE < 2
-                                  } 
-              }
+    block-aisle-side-picking_turn : [] must have length < 3
 }
+side is odd or even.
+8. in folder 4/ is the example where we had checked only "item collision"
 
 ## TODO List
 0.  test and visualize the collision table behaviour running each individual test
 in the console
+1.  TAke care of the remaining items (when the last items collide
+with everything in the past. Make turns for picking?)
 1.  test jsons generator?
-3.  think about the objective functions Alejandro said
+3.  Observe git messages convention!
 4.  PERHAPS same--aisle--preference CONSTRAINTS
 5.  if next closest crosses two cross aisles back, then mark as watched and
 continue, to avoid ./avoid1.json UNLESS all the remaining items fit into the
