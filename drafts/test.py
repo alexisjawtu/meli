@@ -82,13 +82,11 @@ def non_collider(stock_label, aisle_block_table):
     return x
 
 """
+import math
+import sys
+
 def char_range(a,b):
     for c in range(ord(a),ord(b)+1):
         yield chr(c)
 
-import math
-
-if True
-    and True
-    or False:
-    print(8)
+print(sys.argv)

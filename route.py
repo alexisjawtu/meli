@@ -10,7 +10,7 @@ class Route:
     def __init__ (self,number,items,weight,volume,quantity,length,opened):
 
         self.number = number
-        self.items  = items # [(sku,position)]
+        self.items  = items # [(sku,position,quantity)]
         self.weight = weight
         self.volume = volume
         self.quantity  = quantity
@@ -35,10 +35,14 @@ class Route:
 
     def to_json (self):
 
-        return {
-            position : sku
-            for sku, position in self.items 
-        }
+        return [
+                   {
+                       "sku"       : sku,
+                       "quantity"  : quantity,
+                       "location"  : position 
+                   }
+                   for (sku, position, quantity) in self.items
+               ]
 
     def is_open (self):
 
@@ -47,7 +51,7 @@ class Route:
     def add_item (self,item):
 
         # TODO Here an Item Class becomes handy
-        self.items  += [(item["sku"],item["stock_label"])] 
+        self.items  += [(item["sku"],item["stock_label"],item["quantity"])] 
         self.weight += item["weight"]
         self.volume += item["volume"]
         self.quantity  += 1
