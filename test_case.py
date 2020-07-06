@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import sys
 
 
 class TestCase(dict):
@@ -36,8 +37,18 @@ class TestCase(dict):
 
         return ''.join([chr(random.randint(65,90)) for i in range(6)])
 
-    def to_json(self):
+    def to_json(self,n):
 
-        file_name = "demand_{}.json".format(str(int(time.time())))
+        file_name = "demand_{}_{}.json".format(str(int(time.time())),n)
         with open (file_name,"w") as out:
             json.dump(self, out, indent=4)
+
+def gen_test(n):
+
+    for i in range(n):
+        case = TestCase(random.randint(100,300))
+        case.to_json(i)
+        del(case)
+
+if (__name__ == "__main__"):
+    gen_test(int(sys.argv[1]))

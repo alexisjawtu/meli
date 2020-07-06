@@ -78,9 +78,8 @@ def unwatch_all(demand):
     for i in demand:
         i["unwatched"] = True
 
-
 def main(json_file):
-    
+
     data              = load(json_file)
     demand, stock     = (data["demand"], data["stock"])
     unwatch_all(demand)
@@ -88,7 +87,6 @@ def main(json_file):
     route_number      = 1
     turn              = 1 # we split the routes into picking turns
     collision_table   = {}
-    print(len(demand))
     output            = Output()
     output[turn]      = { "routes" : [] }
 
@@ -127,9 +125,9 @@ def main(json_file):
         del(route)
     
     output.sort()
+    output.to_json(json_file)
+    output.to_tex(json_file)
 
-    with open ("output.json","w") as outfile:
-        json.dump (output, outfile, indent = 4)
 
 if (__name__ == "__main__"):
     main(sys.argv[1])
