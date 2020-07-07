@@ -4,59 +4,59 @@
             [
                 {
                     "sku": "RJNYCM",
-                    "quantity": 2,
-                    "location": "MZ-1-046-134"
+                    "location": "MZ-1-046-134",
+                    "quantity": 2
                 }
             ],
             [
                 {
                     "sku": "ODWKNM",
-                    "quantity": 1,
-                    "location": "MZ-1-015-006"
+                    "location": "MZ-1-015-006",
+                    "quantity": 1
                 }
             ],
             [
                 {
                     "sku": "PRLDBB",
-                    "quantity": 5,
-                    "location": "MZ-1-001-058"
+                    "location": "MZ-1-001-058",
+                    "quantity": 5
                 },
                 {
                     "sku": "DQWECU",
-                    "quantity": 6,
-                    "location": "MZ-1-016-048"
+                    "location": "MZ-1-016-048",
+                    "quantity": 6
                 },
                 {
                     "sku": "JUDDTU",
-                    "quantity": 3,
-                    "location": "MZ-1-024-043"
+                    "location": "MZ-1-024-043",
+                    "quantity": 3
                 },
                 {
                     "sku": "LALNJL",
-                    "quantity": 7,
-                    "location": "MZ-1-048-035"
+                    "location": "MZ-1-048-035",
+                    "quantity": 7
                 }
             ],
             [
                 {
                     "sku": "RHPHDT",
-                    "quantity": 2,
-                    "location": "MZ-1-003-009"
+                    "location": "MZ-1-003-009",
+                    "quantity": 2
                 },
                 {
                     "sku": "NBVVZL",
-                    "quantity": 1,
-                    "location": "MZ-1-005-014"
+                    "location": "MZ-1-005-014",
+                    "quantity": 1
                 },
                 {
                     "sku": "GBEFTV",
-                    "quantity": 3,
-                    "location": "MZ-1-004-051"
+                    "location": "MZ-1-004-051",
+                    "quantity": 3
                 },
                 {
                     "sku": "HOWJUM",
-                    "quantity": 10,
-                    "location": "MZ-1-002-052"
+                    "location": "MZ-1-002-052",
+                    "quantity": 10
                 }
             ]
         ]

@@ -10,12 +10,13 @@ class Output(dict):
     def sort (self):
 
         for turn, routes in iter(self.items()):
+            # peek the first item picked in each route
             locs  = [route[0]["location"] for route in routes["routes"]]
+            # sort measuring distance from the entrance
             order = sorted(range(len(locs)),
                            key     = lambda k : label_distance(locs[k],ENTRANCE),
                            reverse = True)
-            l     = [routes["routes"][o] for o in order]
-            routes["routes"] = l
+            routes["routes"] = [routes["routes"][j] for j in order]
 
     def to_json(self,json_in):
 
@@ -32,7 +33,7 @@ class Output(dict):
         text  = '\\documentclass[landscape]{article}\n\\usepackage{tikz}\n'
         text += '\\begin{document}\n\\begin{figure}[htb]\n\\centering'
         text += '\\resizebox{\\textwidth}{!}{%\n'
-        for n in self:
+        for n in self: # turns
             routes = self[n]["routes"]
             text  += '\\begin{tikzpicture}\n\t\\draw (0,0) circle (1.4ex);\n'
             text  += '\t\\node at (0,0) {E};\n'

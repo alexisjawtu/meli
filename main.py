@@ -5,10 +5,12 @@ from   route  import *
 from   output import *
 
 # unitary distances
-BOX      = 1 # 1 BLOCK == 7 BOXES
-AISLE    = 4
-CROSS    = 3
-ENTRANCE = "MZ-1-000-000"
+BOX                   = 1 # 1 BLOCK == 7 BOXES
+AISLE                 = 4
+CROSS                 = 3
+MAX_PICKERS_PER_SIDE  = 3
+MAX_PICKERS_PER_CROSS = 3
+ENTRANCE              = "MZ-1-000-000"
 
 def load (demand_json):
 
@@ -16,21 +18,39 @@ def load (demand_json):
         d = json.load(f)
     return d
 
-def check_collision_table(stock_label,route,collision_table):
+def check_collision_table(item,route,collision_table):
 
+    check        = True
     picking_turn = route.quantity + 1
-    position     = int(stock_label[9:12])
-    aisle        = stock_label[5:8]
-    side         = position % 2
+    position     = int(item["location"][9:12])
+    aisle        = item["location"][5:8]
+    last_aisle   = route.items[-1]["location"][5:8]
     block        = math.ceil(position/14)
-    key          = "{}-{}-{}-{}".format(block,aisle,side,picking_turn)
-    check = False
-    if (len(collision_table.get(key, [])) < 3):
-        check = True
-        # update table
-        collision_table[key] = collision_table.get(key, []) + [route.number]
-    return check
+    last_block   = math.ceil(int(route.items[-1]["location"][9:12])/14)
+    side         = position % 2
 
+    ## Restrictions
+    # collisions along same picking-aisle
+    key1  = "{}-{}-{}-{}".format(block,aisle,side,picking_turn)
+    check = check and (len(collision_table.get(key1, [])) < MAX_PICKERS_PER_SIDE)
+
+    # crossing diagonally passing through same cross-aisle, from a picking aisle
+    # to another, in any direction
+    aisle_seq     = sorted([int(aisle), int(last_aisle)])
+    in_cross_keys = []
+    if (math.abs(block - last_block) == 1):
+        for ai in range(aisle_seq[0],aisle_seq[1]):
+            key2          += "{}-{}-{}-{}".format(picking_turn,cross,ai,ai+1)
+            in_cross_keys += [key2]
+            b              = len(collision_table.get(key2, [])) < MAX_PICKERS_PER_CROSS
+            check          = check and b
+
+    if (check): # update collision table occupying places
+        collision_table[key1] = collision_table.get(key1, []) + [route.number]
+        for key in in_cross_keys:
+            collision_table[key] = collision_table.get(key, []) + [route.number]
+
+    return check
 
 def label_distance (label_one, label_two):
 
@@ -62,11 +82,11 @@ def closest (item, demand_items, stock):
     i_min               = 0
     closest_sku         = demand_items[i_min]["sku"]
     closest_position    = next(iter(stock[closest_sku].keys()))
-    min_distance        = label_distance(closest_position,item["stock_label"])
+    min_distance        = label_distance(closest_position,item["location"])
     for k in range(len(demand_items)):
         if (demand_items[k]["unwatched"]):
             for position in stock[demand_items[k]["sku"]]:
-                d = label_distance(position, item["stock_label"])
+                d = label_distance(position, item["location"])
                 if (d < min_distance):
                     closest_position = position
                     min_distance     = d
@@ -91,22 +111,27 @@ def main(json_file):
     output[turn]      = { "routes" : [] }
 
     while (len(demand) > 0):
-        last_item = {"sku":"","weight":0,"volume":0,"stock_label":ENTRANCE}
+        last_item = {"sku":"","weight":0,"volume":0,"location":ENTRANCE}
         route     = Route(route_number,[],0,0,0,0,True)
         while (route.is_open() and len(demand) > 0 and still_unwatched > 0):
-            (min_item_index,stock_label,min_distance) = closest(last_item,demand,
+            (min_item_index,location,min_distance) = closest(last_item,demand,
                                                                 stock)
-            candidate = demand[min_item_index]
+            candidate = {
+                "sku"       : demand[min_item_index]["sku"],
+                "weight"    : demand[min_item_index]["weight"],
+                "volume"    : demand[min_item_index]["volume"],
+                "location"  : location
+            }
             if (route.accepts(candidate)
-                    and check_collision_table(stock_label,route,collision_table)):
+                    and check_collision_table(candidate,route,collision_table)):
                 last_item = demand.pop(min_item_index)
-                last_item["stock_label"]    = stock_label
-                last_item["quantity"]       = stock[last_item["sku"]][stock_label]
+                last_item["location"]    = location
+                last_item["quantity"]       = stock[last_item["sku"]][location]
                 last_item["added_distance"] = min_distance
                 route.add_item(last_item)
-                stock[last_item["sku"]][stock_label]    -= 1
-                if stock[last_item["sku"]][stock_label] == 0:
-                    stock[last_item["sku"]].pop(stock_label)
+                stock[last_item["sku"]][location]    -= 1
+                if stock[last_item["sku"]][location] == 0:
+                    stock[last_item["sku"]].pop(location)
             else:
                 still_unwatched                    -= 1
                 demand[min_item_index]["unwatched"] = False
@@ -127,7 +152,6 @@ def main(json_file):
     output.sort()
     output.to_json(json_file)
     output.to_tex(json_file)
-
 
 if (__name__ == "__main__"):
     main(sys.argv[1])

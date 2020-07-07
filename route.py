@@ -1,3 +1,4 @@
+import math
 
 
 class Route:
@@ -9,22 +10,25 @@ class Route:
 
     def __init__ (self,number,items,weight,volume,quantity,length,opened):
 
-        self.number = number
-        self.items  = items # [(sku,position,quantity)]
-        self.weight = weight
-        self.volume = volume
-        self.quantity  = quantity
-        self.length = length
-        self.opened = opened
+        self.number   = number
+        self.items    = items 
+        self.weight   = weight
+        self.volume   = volume
+        self.quantity = quantity
+        self.length   = length
+        self.opened   = opened
 
     def __str__(self):
 
-        head = "Cantidad: {}. Peso: {}. Volumen: {}. Distancia a recorrer hasta el item final: {}.\n\n"
-        head = head.format(str(self.quantity),str(self.weight),\
-                 str(self.volume),str(self.length))
+        head  = "Cantidad: {}. Peso: {}. Volumen: {}. "
+        head += "Distancia a recorrer hasta el item final: {}.\n\n"
+        head  = head.format(str(self.quantity),str(self.weight),\
+                            str(self.volume),str(self.length))
         body = ''
         for i in range(len(self.items)):
-            body += "{}. Pos: {}, sku: {}\n".format(i+1,self.items[i][1],self.items[i][0])
+            body += "{}. Pos: {}, sku: {}\n".format(i+1,
+                                                    self.items[i]["location"],
+                                                    self.items[i]["sku"])
         return head + body
 
     def to_txt (self):
@@ -37,11 +41,11 @@ class Route:
 
         return [
                    {
-                       "sku"       : sku,
-                       "quantity"  : quantity,
-                       "location"  : position 
+                       "sku"       : i["sku"],
+                       "quantity"  : i["quantity"],
+                       "location"  : i["location"]
                    }
-                   for (sku, position, quantity) in self.items
+                   for i in self.items
                ]
 
     def is_open (self):
@@ -50,18 +54,34 @@ class Route:
 
     def add_item (self,item):
 
-        # TODO Here an Item Class becomes handy
-        self.items  += [(item["sku"],item["stock_label"],item["quantity"])] 
-        self.weight += item["weight"]
-        self.volume += item["volume"]
-        self.quantity  += 1
-        self.length += item["added_distance"]
-        if self.quantity == self.QUANTITY or self.volume == self.VOLUME \
-            or self.weight == self.WEIGHT:
+        self.items    += [
+                            {
+                                "sku"      : item["sku"],
+                                "location" : item["location"],
+                                "quantity" : item["quantity"],
+                                "weight"   : item["weight"],
+                                "volume"   : item["volume"]
+                            }
+                         ]
+
+        self.weight   += item["weight"]
+        self.volume   += item["volume"]
+        self.quantity += 1
+        self.length   += item["added_distance"]
+        if (self.quantity == self.QUANTITY or self.volume == self.VOLUME
+                or self.weight == self.WEIGHT):
             self.opened = False
 
     def accepts(self,item):
 
-        x = item["weight"] + self.weight <= self.WEIGHT
-        x = x and item["volume"] + self.volume <= self.VOLUME
+        x          = item["weight"] + self.weight <= self.WEIGHT
+        x          = x and item["volume"] + self.volume <= self.VOLUME
+        last_block = math.ceil(int(self.items[-1]["location"][9:12])/14)
+        block      = math.ceil(int(item["location"][9:12])/14)
+        if (last_block - block > 1):  ## vertical zigzag bound
+            x = x and False
+        last_aisle = int(self.items[-1]["location"][5:8])
+        aisle      = int(item["location"][5:8])
+        if (math.abs(last_aisle - aisle) > 2): ## horiz zigzag bound
+            x = x and False
         return x
