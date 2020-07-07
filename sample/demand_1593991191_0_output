@@ -1,0 +1,727 @@
+{
+    "1": {
+        "routes": [
+            [
+                {
+                    "sku": "XRNOOZ",
+                    "location": "MZ-1-048-022",
+                    "quantity": 8
+                },
+                {
+                    "sku": "IDGKDM",
+                    "location": "MZ-1-046-032",
+                    "quantity": 3
+                },
+                {
+                    "sku": "ASXNPH",
+                    "location": "MZ-1-040-078",
+                    "quantity": 4
+                },
+                {
+                    "sku": "FKMVWZ",
+                    "location": "MZ-1-049-139",
+                    "quantity": 1
+                }
+            ],
+            [
+                {
+                    "sku": "HRPPVE",
+                    "location": "MZ-1-026-087",
+                    "quantity": 8
+                },
+                {
+                    "sku": "FYHSKD",
+                    "location": "MZ-1-026-092",
+                    "quantity": 9
+                },
+                {
+                    "sku": "TQZBGQ",
+                    "location": "MZ-1-034-094",
+                    "quantity": 3
+                },
+                {
+                    "sku": "SYWBDT",
+                    "location": "MZ-1-036-119",
+                    "quantity": 3
+                },
+                {
+                    "sku": "PTPNVR",
+                    "location": "MZ-1-046-119",
+                    "quantity": 3
+                }
+            ],
+            [
+                {
+                    "sku": "OHYTDF",
+                    "location": "MZ-1-022-043",
+                    "quantity": 9
+                },
+                {
+                    "sku": "VIKTPE",
+                    "location": "MZ-1-021-104",
+                    "quantity": 6
+                },
+                {
+                    "sku": "FOYSUF",
+                    "location": "MZ-1-024-110",
+                    "quantity": 2
+                },
+                {
+                    "sku": "EUQCDM",
+                    "location": "MZ-1-024-114",
+                    "quantity": 8
+                },
+                {
+                    "sku": "GUVYWN",
+                    "location": "MZ-1-022-135",
+                    "quantity": 2
+                },
+                {
+                    "sku": "RYHBYN",
+                    "location": "MZ-1-030-129",
+                    "quantity": 3
+                },
+                {
+                    "sku": "UDLKZQ",
+                    "location": "MZ-1-032-134",
+                    "quantity": 2
+                },
+                {
+                    "sku": "NHBKXW",
+                    "location": "MZ-1-039-125",
+                    "quantity": 9
+                }
+            ],
+            [
+                {
+                    "sku": "SXHHPK",
+                    "location": "MZ-1-026-020",
+                    "quantity": 7
+                },
+                {
+                    "sku": "LEMUKL",
+                    "location": "MZ-1-030-017",
+                    "quantity": 10
+                },
+                {
+                    "sku": "IKPWXE",
+                    "location": "MZ-1-030-003",
+                    "quantity": 8
+                },
+                {
+                    "sku": "FMCWJO",
+                    "location": "MZ-1-029-040",
+                    "quantity": 7
+                },
+                {
+                    "sku": "SIIHKS",
+                    "location": "MZ-1-033-033",
+                    "quantity": 5
+                },
+                {
+                    "sku": "WZMFIN",
+                    "location": "MZ-1-034-051",
+                    "quantity": 10
+                },
+                {
+                    "sku": "JNUYYW",
+                    "location": "MZ-1-035-038",
+                    "quantity": 7
+                },
+                {
+                    "sku": "HQIPDE",
+                    "location": "MZ-1-036-067",
+                    "quantity": 3
+                },
+                {
+                    "sku": "XQGFZR",
+                    "location": "MZ-1-033-075",
+                    "quantity": 9
+                },
+                {
+                    "sku": "GFOIIM",
+                    "location": "MZ-1-035-140",
+                    "quantity": 3
+                }
+            ],
+            [
+                {
+                    "sku": "BIRMLY",
+                    "location": "MZ-1-001-121",
+                    "quantity": 9
+                },
+                {
+                    "sku": "XHEITL",
+                    "location": "MZ-1-013-131",
+                    "quantity": 4
+                },
+                {
+                    "sku": "KGKUDQ",
+                    "location": "MZ-1-013-132",
+                    "quantity": 2
+                },
+                {
+                    "sku": "KOUXUV",
+                    "location": "MZ-1-014-138",
+                    "quantity": 4
+                },
+                {
+                    "sku": "SEPQVF",
+                    "location": "MZ-1-018-117",
+                    "quantity": 2
+                },
+                {
+                    "sku": "GLHVYQ",
+                    "location": "MZ-1-018-113",
+                    "quantity": 9
+                },
+                {
+                    "sku": "DVRPCJ",
+                    "location": "MZ-1-019-118",
+                    "quantity": 4
+                },
+                {
+                    "sku": "CNNWKU",
+                    "location": "MZ-1-019-109",
+                    "quantity": 3
+                },
+                {
+                    "sku": "FJDAWH",
+                    "location": "MZ-1-019-099",
+                    "quantity": 2
+                }
+            ],
+            [
+                {
+                    "sku": "JAFZXD",
+                    "location": "MZ-1-005-085",
+                    "quantity": 9
+                },
+                {
+                    "sku": "BLLCSF",
+                    "location": "MZ-1-005-093",
+                    "quantity": 2
+                },
+                {
+                    "sku": "BZECQM",
+                    "location": "MZ-1-003-124",
+                    "quantity": 2
+                },
+                {
+                    "sku": "NSWWSG",
+                    "location": "MZ-1-003-132",
+                    "quantity": 7
+                },
+                {
+                    "sku": "TUEEWW",
+                    "location": "MZ-1-006-129",
+                    "quantity": 7
+                },
+                {
+                    "sku": "RINRJB",
+                    "location": "MZ-1-010-132",
+                    "quantity": 5
+                },
+                {
+                    "sku": "WITVWK",
+                    "location": "MZ-1-010-120",
+                    "quantity": 10
+                },
+                {
+                    "sku": "RYWNCT",
+                    "location": "MZ-1-009-118",
+                    "quantity": 1
+                },
+                {
+                    "sku": "HKEMKN",
+                    "location": "MZ-1-013-114",
+                    "quantity": 1
+                },
+                {
+                    "sku": "VWEPWU",
+                    "location": "MZ-1-013-117",
+                    "quantity": 1
+                }
+            ],
+            [
+                {
+                    "sku": "GVCPID",
+                    "location": "MZ-1-019-002",
+                    "quantity": 3
+                },
+                {
+                    "sku": "YUPNXS",
+                    "location": "MZ-1-018-015",
+                    "quantity": 8
+                },
+                {
+                    "sku": "AMHBFW",
+                    "location": "MZ-1-021-027",
+                    "quantity": 2
+                },
+                {
+                    "sku": "FADAJO",
+                    "location": "MZ-1-019-034",
+                    "quantity": 1
+                },
+                {
+                    "sku": "WQDEUN",
+                    "location": "MZ-1-018-056",
+                    "quantity": 10
+                },
+                {
+                    "sku": "VEETSA",
+                    "location": "MZ-1-020-057",
+                    "quantity": 1
+                },
+                {
+                    "sku": "DWHGET",
+                    "location": "MZ-1-021-069",
+                    "quantity": 6
+                },
+                {
+                    "sku": "DFGQYV",
+                    "location": "MZ-1-023-075",
+                    "quantity": 3
+                },
+                {
+                    "sku": "VMCSDM",
+                    "location": "MZ-1-021-092",
+                    "quantity": 9
+                }
+            ],
+            [
+                {
+                    "sku": "ILMCYR",
+                    "location": "MZ-1-009-057",
+                    "quantity": 2
+                },
+                {
+                    "sku": "KCXJIU",
+                    "location": "MZ-1-014-056",
+                    "quantity": 7
+                },
+                {
+                    "sku": "BJSSXG",
+                    "location": "MZ-1-014-040",
+                    "quantity": 1
+                },
+                {
+                    "sku": "VBKVRR",
+                    "location": "MZ-1-014-033",
+                    "quantity": 8
+                },
+                {
+                    "sku": "SLRPQE",
+                    "location": "MZ-1-016-040",
+                    "quantity": 9
+                },
+                {
+                    "sku": "OFHLOQ",
+                    "location": "MZ-1-018-039",
+                    "quantity": 5
+                },
+                {
+                    "sku": "RHEAUF",
+                    "location": "MZ-1-018-036",
+                    "quantity": 7
+                },
+                {
+                    "sku": "GGQPNM",
+                    "location": "MZ-1-019-039",
+                    "quantity": 9
+                },
+                {
+                    "sku": "BSRGHY",
+                    "location": "MZ-1-019-027",
+                    "quantity": 5
+                },
+                {
+                    "sku": "LGWEPE",
+                    "location": "MZ-1-020-020",
+                    "quantity": 5
+                }
+            ],
+            [
+                {
+                    "sku": "YCNYUF",
+                    "location": "MZ-1-006-062",
+                    "quantity": 3
+                },
+                {
+                    "sku": "DDZDKJ",
+                    "location": "MZ-1-006-076",
+                    "quantity": 3
+                },
+                {
+                    "sku": "JBJTUJ",
+                    "location": "MZ-1-007-073",
+                    "quantity": 4
+                },
+                {
+                    "sku": "TZNTBF",
+                    "location": "MZ-1-007-091",
+                    "quantity": 5
+                },
+                {
+                    "sku": "GGLKKU",
+                    "location": "MZ-1-007-107",
+                    "quantity": 3
+                },
+                {
+                    "sku": "GMTDRL",
+                    "location": "MZ-1-009-102",
+                    "quantity": 1
+                },
+                {
+                    "sku": "DIIAWR",
+                    "location": "MZ-1-010-097",
+                    "quantity": 6
+                },
+                {
+                    "sku": "CLCSZC",
+                    "location": "MZ-1-010-105",
+                    "quantity": 7
+                },
+                {
+                    "sku": "LIZSLB",
+                    "location": "MZ-1-011-112",
+                    "quantity": 2
+                },
+                {
+                    "sku": "LDQNTR",
+                    "location": "MZ-1-011-126",
+                    "quantity": 9
+                }
+            ],
+            [
+                {
+                    "sku": "KVWEXN",
+                    "location": "MZ-1-001-074",
+                    "quantity": 5
+                },
+                {
+                    "sku": "FCFEBD",
+                    "location": "MZ-1-001-092",
+                    "quantity": 7
+                },
+                {
+                    "sku": "RLYVEB",
+                    "location": "MZ-1-004-102",
+                    "quantity": 10
+                },
+                {
+                    "sku": "ZUPGOH",
+                    "location": "MZ-1-004-110",
+                    "quantity": 10
+                },
+                {
+                    "sku": "ENCXMA",
+                    "location": "MZ-1-004-116",
+                    "quantity": 4
+                },
+                {
+                    "sku": "BUJDJX",
+                    "location": "MZ-1-004-127",
+                    "quantity": 4
+                },
+                {
+                    "sku": "CMDOGT",
+                    "location": "MZ-1-004-138",
+                    "quantity": 6
+                },
+                {
+                    "sku": "XUSVXH",
+                    "location": "MZ-1-003-136",
+                    "quantity": 10
+                },
+                {
+                    "sku": "QWKQHZ",
+                    "location": "MZ-1-003-133",
+                    "quantity": 10
+                },
+                {
+                    "sku": "OKKKKI",
+                    "location": "MZ-1-007-140",
+                    "quantity": 7
+                }
+            ],
+            [
+                {
+                    "sku": "VZVKVT",
+                    "location": "MZ-1-001-062",
+                    "quantity": 5
+                },
+                {
+                    "sku": "ZWFTKK",
+                    "location": "MZ-1-002-060",
+                    "quantity": 5
+                },
+                {
+                    "sku": "SWHQHJ",
+                    "location": "MZ-1-004-065",
+                    "quantity": 1
+                },
+                {
+                    "sku": "OISZLH",
+                    "location": "MZ-1-003-077",
+                    "quantity": 3
+                },
+                {
+                    "sku": "JWUTVX",
+                    "location": "MZ-1-003-090",
+                    "quantity": 8
+                },
+                {
+                    "sku": "VPJOKY",
+                    "location": "MZ-1-003-097",
+                    "quantity": 7
+                },
+                {
+                    "sku": "DBOYSH",
+                    "location": "MZ-1-002-094",
+                    "quantity": 1
+                },
+                {
+                    "sku": "ZUFHJB",
+                    "location": "MZ-1-001-100",
+                    "quantity": 3
+                },
+                {
+                    "sku": "JXSTJT",
+                    "location": "MZ-1-002-111",
+                    "quantity": 2
+                },
+                {
+                    "sku": "HLRNBV",
+                    "location": "MZ-1-001-110",
+                    "quantity": 7
+                }
+            ],
+            [
+                {
+                    "sku": "GKDUPN",
+                    "location": "MZ-1-008-006",
+                    "quantity": 3
+                },
+                {
+                    "sku": "SZERJE",
+                    "location": "MZ-1-008-013",
+                    "quantity": 8
+                },
+                {
+                    "sku": "PQKWLE",
+                    "location": "MZ-1-008-013",
+                    "quantity": 9
+                },
+                {
+                    "sku": "TDZXHR",
+                    "location": "MZ-1-008-025",
+                    "quantity": 9
+                },
+                {
+                    "sku": "LFMFNN",
+                    "location": "MZ-1-008-026",
+                    "quantity": 5
+                },
+                {
+                    "sku": "EPKNKD",
+                    "location": "MZ-1-010-015",
+                    "quantity": 1
+                },
+                {
+                    "sku": "MXUBZC",
+                    "location": "MZ-1-013-018",
+                    "quantity": 8
+                },
+                {
+                    "sku": "UYHFBP",
+                    "location": "MZ-1-014-009",
+                    "quantity": 9
+                },
+                {
+                    "sku": "WLFONN",
+                    "location": "MZ-1-016-011",
+                    "quantity": 2
+                },
+                {
+                    "sku": "NIDORW",
+                    "location": "MZ-1-018-011",
+                    "quantity": 9
+                }
+            ],
+            [
+                {
+                    "sku": "MHZRWJ",
+                    "location": "MZ-1-003-020",
+                    "quantity": 9
+                },
+                {
+                    "sku": "SQFHJX",
+                    "location": "MZ-1-004-034",
+                    "quantity": 8
+                },
+                {
+                    "sku": "XZILRU",
+                    "location": "MZ-1-007-029",
+                    "quantity": 10
+                },
+                {
+                    "sku": "EZCTHI",
+                    "location": "MZ-1-008-042",
+                    "quantity": 2
+                },
+                {
+                    "sku": "PSRIXS",
+                    "location": "MZ-1-010-029",
+                    "quantity": 8
+                },
+                {
+                    "sku": "SXOKOW",
+                    "location": "MZ-1-010-036",
+                    "quantity": 4
+                },
+                {
+                    "sku": "PZMFMB",
+                    "location": "MZ-1-011-043",
+                    "quantity": 6
+                },
+                {
+                    "sku": "LTUHMC",
+                    "location": "MZ-1-012-042",
+                    "quantity": 9
+                },
+                {
+                    "sku": "AQZAMD",
+                    "location": "MZ-1-010-066",
+                    "quantity": 6
+                }
+            ],
+            [
+                {
+                    "sku": "WGWLCZ",
+                    "location": "MZ-1-002-021",
+                    "quantity": 10
+                },
+                {
+                    "sku": "QSJEIO",
+                    "location": "MZ-1-002-023",
+                    "quantity": 2
+                },
+                {
+                    "sku": "VKUKED",
+                    "location": "MZ-1-002-030",
+                    "quantity": 1
+                },
+                {
+                    "sku": "XTKZQZ",
+                    "location": "MZ-1-002-040",
+                    "quantity": 10
+                },
+                {
+                    "sku": "XELSVW",
+                    "location": "MZ-1-002-039",
+                    "quantity": 4
+                },
+                {
+                    "sku": "GXMHUR",
+                    "location": "MZ-1-003-044",
+                    "quantity": 5
+                },
+                {
+                    "sku": "DWMMLK",
+                    "location": "MZ-1-004-043",
+                    "quantity": 10
+                },
+                {
+                    "sku": "VJTYVO",
+                    "location": "MZ-1-004-052",
+                    "quantity": 6
+                },
+                {
+                    "sku": "AVCFDH",
+                    "location": "MZ-1-005-061",
+                    "quantity": 6
+                },
+                {
+                    "sku": "OAISBY",
+                    "location": "MZ-1-006-060",
+                    "quantity": 2
+                }
+            ],
+            [
+                {
+                    "sku": "BBLQRZ",
+                    "location": "MZ-1-003-002",
+                    "quantity": 4
+                },
+                {
+                    "sku": "SZMVSM",
+                    "location": "MZ-1-004-001",
+                    "quantity": 1
+                },
+                {
+                    "sku": "XJUHEO",
+                    "location": "MZ-1-004-010",
+                    "quantity": 1
+                },
+                {
+                    "sku": "HPYQTB",
+                    "location": "MZ-1-005-016",
+                    "quantity": 6
+                },
+                {
+                    "sku": "OGOBDQ",
+                    "location": "MZ-1-006-028",
+                    "quantity": 7
+                },
+                {
+                    "sku": "JKIOBI",
+                    "location": "MZ-1-007-015",
+                    "quantity": 7
+                },
+                {
+                    "sku": "FZSGAJ",
+                    "location": "MZ-1-006-017",
+                    "quantity": 6
+                },
+                {
+                    "sku": "ALAWOI",
+                    "location": "MZ-1-006-011",
+                    "quantity": 9
+                },
+                {
+                    "sku": "EAFDAK",
+                    "location": "MZ-1-008-016",
+                    "quantity": 3
+                },
+                {
+                    "sku": "WSVSCJ",
+                    "location": "MZ-1-009-035",
+                    "quantity": 3
+                }
+            ]
+        ]
+    },
+    "2": {
+        "routes": [
+            [
+                {
+                    "sku": "GOZDRP",
+                    "location": "MZ-1-023-009",
+                    "quantity": 8
+                },
+                {
+                    "sku": "BVQOZW",
+                    "location": "MZ-1-023-009",
+                    "quantity": 3
+                },
+                {
+                    "sku": "UBOVLG",
+                    "location": "MZ-1-025-007",
+                    "quantity": 8
+                }
+            ]
+        ]
+    }
+}

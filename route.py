@@ -4,8 +4,8 @@ import math
 class Route:
 
 
-    WEIGHT   = 149
-    VOLUME   = 199
+    WEIGHT   = 499
+    VOLUME   = 499
     QUANTITY = 10
 
     def __init__ (self,number,items,weight,volume,quantity,length,opened):
@@ -38,14 +38,13 @@ class Route:
             out.write(str(self))
 
     def to_json (self):
-
         return [
                    {
                        "sku"       : i["sku"],
                        "quantity"  : i["quantity"],
                        "location"  : i["location"]
                    }
-                   for i in self.items
+                   for i in self.items[1:]
                ]
 
     def is_open (self):
@@ -77,11 +76,13 @@ class Route:
         x          = item["weight"] + self.weight <= self.WEIGHT
         x          = x and item["volume"] + self.volume <= self.VOLUME
         last_block = math.ceil(int(self.items[-1]["location"][9:12])/14)
+        last_aisle = int(self.items[-1]["location"][5:8])
         block      = math.ceil(int(item["location"][9:12])/14)
         if (last_block - block > 1):  ## vertical zigzag bound
             x = x and False
-        last_aisle = int(self.items[-1]["location"][5:8])
+            #print("vertical zigzag bound triggered")
         aisle      = int(item["location"][5:8])
-        if (math.abs(last_aisle - aisle) > 2): ## horiz zigzag bound
-            x = x and False
+        #if (math.fabs(last_aisle - aisle) > 2): ## horiz zigzag bound
+        #    print("horiz zigzag bound triggered")
+        #    x = x and False
         return x

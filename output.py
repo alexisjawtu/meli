@@ -20,21 +20,22 @@ class Output(dict):
 
     def to_json(self,json_in):
 
-        with open ("output_{}.json".format(json_in[7:-5]),"w") as outfile:
+        with open ("{}_output".format(json_in[0:-5]),"w") as outfile:
             json.dump (self, outfile, indent = 4)
 
     def to_tex (self,json_in):
 
-        file_name = "output_{}.tex".format(json_in[7:-5])
+        file_name = "{}_output.tex".format(json_in[0:-5])
         color     = "color{}"
         item      = '\t\\fill[{}] ({},{}) circle (1.4ex);\n'
         node      = '\t\\node at  ({},{}) {};\n'
 
         text  = '\\documentclass[landscape]{article}\n\\usepackage{tikz}\n'
-        text += '\\begin{document}\n\\begin{figure}[htb]\n\\centering'
-        text += '\\resizebox{\\textwidth}{!}{%\n'
+        text += '\\begin{document}\n'
+
         for n in self: # turns
             routes = self[n]["routes"]
+            text  += '\n\\begin{figure}[htb]\n\\centering\\resizebox{\\textwidth}{!}{%\n'
             text  += '\\begin{tikzpicture}\n\t\\draw (0,0) circle (1.4ex);\n'
             text  += '\t\\node at (0,0) {E};\n'
             for m in range(len(routes)):
@@ -53,7 +54,7 @@ class Output(dict):
                     this_item = item.format(color_name,x,y)
                     this_node = '\t\\node at  ({},{}) '.format(x,y) + '{' + str(m) +'};\n'
                     text     += this_item + this_node
-            text += '\\end{tikzpicture}}\n\\end{figure}\\newpage'
+            text += '\\end{tikzpicture}}\n\\end{figure}\n\\newpage'
         text = text[0:-8] +'\\end{document}'
         with open (file_name,'w') as d:
             d.write(text)

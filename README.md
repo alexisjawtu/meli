@@ -6,13 +6,13 @@ Distance from ENTRANCE to MZ-1-001-001 is 7 (1 aisle and 1 cross).
 2. There is an order of departure for the routes, 
 given by the position of their first pick, which leads to some sort
 of First In First Out situation.
-3. output.json is a list of turns, each turn is a list of routes
+3. The output file is a json formatted file with a list of turns, each turn is a list of routes
 4. Users know the position labels and we only enumerate the picking order.
 5. Everything adds 1 to the route distance (e.g. a rail in a cross aisle,
    moving from one box to another.)
 6. There are no items in demand with the same sku.
 7. Everything is in the same area, same floor.
-8.  Picking and Collision Constraints (parameters)
+8.  Picking and Collision Constraints (this changes with every experimentation)
     1.  no three items in same aisle - block - side - picking_step,
         where 1 <= picking_step <= Route.QUANTITY 
 { 
@@ -39,16 +39,17 @@ aisles 1 to 3. Observe how the routes don't collide.
 2. in folder 8/ we included the reversed order to avoid pickers 
 blocking other pickers heading to more advanced boxes in the same aisle/block.
 3. in folder 4/ is the example where we had checked only "item collision"
+4. In folder sample/ is the rest of random experiments started with test_case.py
 
 ## TODO List
 0.  test and visualize the collision table behaviour running each individual test
 in the console
-1.  there are many calculation repeated over an over, done in lable_distance()
-2.  Observe git messages convention!
-3.  PERHAPS same--aisle--preference CONSTRAINTS
-4.  if next closest crosses two cross aisles back, then mark as watched and
+1.  if next closest crosses two cross aisles back, then mark as watched and
 continue, to avoid ./avoid1.json UNLESS all the remaining items fit into the
 current ROUTE! (the risk is to have an entire extra route for just one remaining
 item.)
+4.  there are many calculations repeated over an over, done in lable_distance()
+2.  Observe git messages convention!
+3.  PERHAPS same--aisle--preference CONSTRAINTS
 5. Should we take into account the distance from last item to EXIT?
 6. Implement a way of avoiding to check collision table for each item each time
