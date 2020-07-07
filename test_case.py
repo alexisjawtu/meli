@@ -7,7 +7,7 @@ import sys
 class TestCase(dict):
 
 
-    def __init__(self, nItems = 10):
+    def __init__(self, nItems = 150):
 
         self["demand"]        = []
         self["stock"]         = {}
@@ -46,7 +46,7 @@ class TestCase(dict):
 def gen_test(n):
 
     for i in range(n):
-        case = TestCase(random.randint(100,300))
+        case = TestCase(500)
         case.to_json(i)
         del(case)
 

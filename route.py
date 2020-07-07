@@ -4,9 +4,9 @@ import math
 class Route:
 
 
-    WEIGHT   = 499
-    VOLUME   = 499
-    QUANTITY = 10
+    WEIGHT   = 999
+    VOLUME   = 999
+    QUANTITY = 40
 
     def __init__ (self,number,items,weight,volume,quantity,length,opened):
 
@@ -80,9 +80,7 @@ class Route:
         block      = math.ceil(int(item["location"][9:12])/14)
         if (last_block - block > 1):  ## vertical zigzag bound
             x = x and False
-            #print("vertical zigzag bound triggered")
         aisle      = int(item["location"][5:8])
-        #if (math.fabs(last_aisle - aisle) > 2): ## horiz zigzag bound
-        #    print("horiz zigzag bound triggered")
-        #    x = x and False
+        if (len(self.items) > 1 and math.fabs(last_aisle - aisle) > 2): ## horiz zigzag bound
+            x = x and False
         return x

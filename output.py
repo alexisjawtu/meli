@@ -27,8 +27,7 @@ class Output(dict):
 
         file_name = "{}_output.tex".format(json_in[0:-5])
         color     = "color{}"
-        item      = '\t\\fill[{}] ({},{}) circle (1.4ex);\n'
-        node      = '\t\\node at  ({},{}) {};\n'
+        item      = '\t\\fill[{}] ({},{}) circle (1ex);\n'
 
         text  = '\\documentclass[landscape]{article}\n\\usepackage{tikz}\n'
         text += '\\begin{document}\n'
@@ -52,7 +51,7 @@ class Output(dict):
                     y         = math.ceil(position/2) + 3*math.ceil(position/14)
                     y         = 0.05*(y-1)
                     this_item = item.format(color_name,x,y)
-                    this_node = '\t\\node at  ({},{}) '.format(x,y) + '{' + str(m) +'};\n'
+                    this_node = '\t\\node at  ({},{}) '.format(x,y) + '{\\tiny{' + str(m) +'}};\n'
                     text     += this_item + this_node
             text += '\\end{tikzpicture}}\n\\end{figure}\n\\newpage'
         text = text[0:-8] +'\\end{document}'
